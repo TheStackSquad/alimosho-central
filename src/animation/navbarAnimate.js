@@ -9,3 +9,9 @@ export const iconRotateVariants = {
   open: { rotate: 180, transition: { duration: 0.3 } },
   closed: { rotate: 0, transition: { duration: 0.3 } },
 };
+
+// ADD THIS EXPORT
+export const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+};

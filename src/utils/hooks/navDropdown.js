@@ -1,5 +1,4 @@
-// src/components/common/NavDropdown.jsx
-
+// src/components/common/nav/NavDropdown.jsx
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +10,7 @@ const dropdownVariants = {
   exit: { opacity: 0, y: -10 },
 };
 
-export const NavDropdown = ({ items, isOpen, onClose, basePath }) => {
+export const NavDropdown = ({ items, isOpen, onClose, basePath, getIcon }) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -27,13 +26,14 @@ export const NavDropdown = ({ items, isOpen, onClose, basePath }) => {
             {items.map((item) => (
               <Link
                 key={item.id}
-                // Use sub-item's path if it exists, otherwise use basePath with anchor
                 href={item.path || `${basePath}#${item.id}`}
                 onClick={onClose}
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
               >
                 <div className="flex items-center gap-2">
-                  <span>{item.icon}</span>
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {getIcon(item.icon, 16)}
+                  </span>
                   <span>{item.label}</span>
                 </div>
               </Link>

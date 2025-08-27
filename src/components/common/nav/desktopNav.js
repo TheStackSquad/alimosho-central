@@ -1,97 +1,117 @@
 // src/components/common/nav/DesktopNav.jsx
-import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { getIcon } from "@/utils/icons";
 import { NavDropdown } from "@/utils/hooks/navDropdown";
-import ThemeToggle from "./themeToggle";
+
+// Sub-component for a single navigation link
+const NavLink = ({ item }) => {
+  const pathname = usePathname();
+  const isActive = item.path === pathname;
+
+  // In DesktopNav.jsx and MobileMenu.jsx, update the navigation handlers:
+
+  const handleNavigation = (path, closeDropdown) => {
+    if (path.includes("#")) {
+      // For hash links, we need to handle smooth scrolling
+      const [basePath, hash] = path.split("#");
+      if (window.location.pathname === basePath) {
+        // We're already on the page, scroll to section
+        scrollToSection(hash);
+      } else {
+        // Navigate to page first, then scroll to section
+        window.location.href = path;
+      }
+    } else {
+      // Regular navigation
+      window.location.href = path;
+    }
+    closeDropdown();
+  };
+
+  return (
+    <Link
+      href={item.path}
+      className={`
+        relative py-2 px-3 transition-colors duration-300 font-medium whitespace-nowrap
+        before:content-[''] before:absolute before:left-1/2 before:-bottom-0.5 before:h-0.5
+        before:transition-all before:duration-300 before:ease-out before:-translate-x-1/2 before:rounded-full
+        ${
+          isActive
+            ? "text-primary dark:text-primary before:w-full before:bg-primary dark:before:bg-primary"
+            : "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:before:w-full hover:before:bg-primary dark:hover:before:bg-primary"
+        }
+      `}
+    >
+      {item.label}
+    </Link>
+  );
+};
 
 export default function DesktopNav({
   navItems,
-  isAboutOpen,
-  toggleAbout,
-  closeAbout,
-  aboutDropdownRef,
-  isCommunityOpen,
-  toggleCommunity,
-  closeCommunity,
-  communityDropdownRef,
-  theme,
-  toggleTheme,
+  isOpen,
+  toggleDropdown,
+  closeDropdown,
+  dropdownRef,
 }) {
-  const renderDesktopNavItem = (item) => {
-    const isDropdownOpen =
-      item.label === "About" ? isAboutOpen : isCommunityOpen;
-    const toggleDropdown =
-      item.label === "About" ? toggleAbout : toggleCommunity;
-    const closeDropdown = item.label === "About" ? closeAbout : closeCommunity;
-    const dropdownRef =
-      item.label === "About" ? aboutDropdownRef : communityDropdownRef;
-
-    if (item.dropdown) {
-      return (
-        <div key={item.path} className="relative" ref={dropdownRef}>
-          <div className="flex items-center">
-            <Link
-              href={item.path}
-              className="relative group px-4 py-2 rounded-l-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1"
-            >
-              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
-                {item.label}
-              </span>
-            </Link>
-            <button
-              onClick={toggleDropdown}
-              className="relative group px-2 py-2 rounded-r-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-              aria-label={`Toggle ${item.label} dropdown`}
-            >
-              <motion.span
-                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="relative z-10"
-              >
-                <ChevronDown size={16} />
-              </motion.span>
-              <motion.div
-                className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                layoutId="desktopHover"
-              />
-            </button>
-          </div>
-          <NavDropdown
-            items={item.dropdown}
-            isOpen={isDropdownOpen}
-            onClose={closeDropdown}
-            basePath={item.path}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div key={item.path}>
-          <Link
-            href={item.path}
-            className="relative group px-4 py-2 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
-              {item.label}
-            </span>
-            <motion.div
-              className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              layoutId="desktopHover"
-            />
-          </Link>
-        </div>
-      );
-    }
+  const handleDropdownClick = (e, dropdownName) => {
+    e.preventDefault();
+    toggleDropdown(dropdownName);
   };
 
   return (
     <nav className="hidden lg:flex items-center space-x-2 font-cinzel text-gray-700 dark:text-gray-300 text-sm">
-      {navItems.map(renderDesktopNavItem)}
-      <div className="ml-4">
-        {/* <ThemeToggle theme={theme} toggleTheme={toggleTheme} /> */}
-      </div>
+      {navItems.map((item) => {
+        if (item.dropdown) {
+          const dropdownName = item.label.toLowerCase();
+          const isDropdownOpen = isOpen(dropdownName);
+
+          return (
+            <div key={item.label} className="relative z-20" ref={dropdownRef}>
+              <div className="flex items-center">
+                {/* Main button for the dropdown parent */}
+                <button
+                  onClick={(e) => handleDropdownClick(e, dropdownName)}
+                  className={`relative py-2 px-3 transition-colors duration-300 font-medium whitespace-nowrap
+                    before:content-[''] before:absolute before:left-1/2 before:-bottom-0.5 before:h-0.5
+                    before:transition-all before:duration-300 before:ease-out before:-translate-x-1/2 before:rounded-full
+                    ${
+                      isDropdownOpen
+                        ? "text-primary dark:text-primary before:w-full before:bg-primary dark:before:bg-primary"
+                        : "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:before:w-full hover:before:bg-primary dark:hover:before:bg-primary"
+                    }
+                  `}
+                  aria-expanded={isDropdownOpen}
+                  aria-haspopup="true"
+                >
+                  {item.label}
+                  <motion.span
+                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="ml-2 inline-block"
+                  >
+                    <ChevronDown size={16} />
+                  </motion.span>
+                </button>
+              </div>
+
+              {/* The Dropdown Panel */}
+              <NavDropdown
+                items={item.dropdown}
+                isOpen={isDropdownOpen}
+                onClose={() => closeDropdown()}
+                basePath={item.path}
+                getIcon={getIcon}
+              />
+            </div>
+          );
+        } else {
+          return <NavLink key={item.path} item={item} />;
+        }
+      })}
     </nav>
   );
 }
