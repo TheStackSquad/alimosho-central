@@ -10,6 +10,7 @@ import ClientOnlyWrapper from "@/components/common/clientOnlyWrapper";
 import HydrationProvider from "@/components/common/hydrationProvider";
 import RealUserMonitoring from "@/components/performance/realUserMonitoring";
 import NextAuthProvider from "@/layoutProvider/nextAuthProvider";
+import { NavigationProvider } from "@/components/common/contexts/navigationContext";
 
 export const metadata = {
   title: "The Almaroof Initiative",
@@ -26,12 +27,12 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="antialiased">
-    
-          <GlobalErrorBoundary>
-            <ErrorBoundaryInit>
-              <HydrationProvider>
-                <ReduxProvider>
-                  <NextAuthProvider>
+        <GlobalErrorBoundary>
+          <ErrorBoundaryInit>
+            <HydrationProvider>
+              <ReduxProvider>
+                <NextAuthProvider>
+                  <NavigationProvider>
                     {/* Header with loading skeleton */}
                     <ClientOnlyWrapper fallback={<HeaderSkeleton />}>
                       <Header />
@@ -51,12 +52,12 @@ export default function RootLayout({ children }) {
                     <ClientOnlyWrapper>
                       <RealUserMonitoring />
                     </ClientOnlyWrapper>
-                  </NextAuthProvider>
-                </ReduxProvider>
-              </HydrationProvider>
-            </ErrorBoundaryInit>
-          </GlobalErrorBoundary>
-   
+                  </NavigationProvider>
+                </NextAuthProvider>
+              </ReduxProvider>
+            </HydrationProvider>
+          </ErrorBoundaryInit>
+        </GlobalErrorBoundary>
       </body>
     </html>
   );
