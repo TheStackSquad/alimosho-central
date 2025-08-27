@@ -3,9 +3,9 @@
 export const projects = [
   {
     id: 1,
-    title: "Rehabilitation of Oshodi Road Network",
+    title: "Rehabilitation of Alimosho Road Network",
     description:
-      "The complete overhaul and resurfacing of major arterial roads within Oshodi-Isolo Local Government Area to improve traffic flow and reduce commute times.",
+      "The complete overhaul and resurfacing of major arterial roads within Alimosho Local Government Area to improve traffic flow and reduce commute times.",
     category: "Infrastructure",
     status: "Completed",
     date: "2025-05-15",
@@ -13,9 +13,9 @@ export const projects = [
   },
   {
     id: 2,
-    title: "Oshodi-Isolo Primary Healthcare Center Upgrade",
+    title: "Alimosho Primary Healthcare Center Upgrade",
     description:
-      "Modernization of three primary healthcare centers with new medical equipment, facilities, and a digital patient management system.",
+      "Modernization of three primary healthcare centers in Alimosho with new medical equipment, facilities, and a digital patient management system.",
     category: "Healthcare",
     status: "In Progress",
     date: "2025-08-01",
@@ -23,9 +23,9 @@ export const projects = [
   },
   {
     id: 3,
-    title: "Community Borehole & Water Project",
+    title: "Alimosho Community Borehole & Water Project",
     description:
-      "Installation of community boreholes in underserved areas to provide residents with access to clean and safe drinking water.",
+      "Installation of community boreholes in underserved areas of Alimosho to provide residents with access to clean and safe drinking water.",
     category: "Community Development",
     status: "Completed",
     date: "2025-04-22",
@@ -33,9 +33,9 @@ export const projects = [
   },
   {
     id: 4,
-    title: "Youth Empowerment and Skill Acquisition Program",
+    title: "Alimosho Youth Empowerment and Skill Acquisition Program",
     description:
-      "A free vocational training program for 500 youths in skills such as coding, fashion design, and catering to foster self-reliance and employment.",
+      "A free vocational training program for 500 Alimosho youths in skills such as coding, fashion design, and catering to foster self-reliance and employment.",
     category: "Youth Empowerment",
     status: "In Progress",
     date: "2025-09-10",
@@ -43,9 +43,9 @@ export const projects = [
   },
   {
     id: 5,
-    title: "Sanitation and Waste Management Initiative",
+    title: "Alimosho Sanitation and Waste Management Initiative",
     description:
-      "An initiative to improve sanitation across the local government area through public awareness campaigns and the deployment of new waste collection bins.",
+      "An initiative to improve sanitation across Alimosho through public awareness campaigns and the deployment of new waste collection bins.",
     category: "Environmental",
     status: "Completed",
     date: "2025-06-30",
@@ -53,9 +53,9 @@ export const projects = [
   },
   {
     id: 6,
-    title: "Market Infrastructure Revitalization",
+    title: "Alimosho Market Infrastructure Revitalization",
     description:
-      "Renovation and modernization of the main local markets to provide a more organized, clean, and safe environment for traders and customers.",
+      "Renovation and modernization of the main Alimosho markets to provide a more organized, clean, and safe environment for traders and customers.",
     category: "Economic Development",
     status: "In Progress",
     date: "2025-10-01",
