@@ -13,8 +13,9 @@ import NextAuthProvider from "@/layoutProvider/nextAuthProvider";
 import { NavigationProvider } from "@/components/common/contexts/navigationContext";
 
 export const metadata = {
-  title: "The Almaroof Initiative",
-  description: "Leadership, Legacy, and Progress",
+  title: "Alimosho Central - Community Development & Leadership",
+  description:
+    "Official platform for Alimosho Central - Empowering communities through leadership, development projects, and public services in the Alimosho region.",
 };
 
 export default function RootLayout({ children }) {
