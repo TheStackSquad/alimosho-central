@@ -43,6 +43,15 @@ jobs:
           NEXT_PUBLIC_VERCEL_ENV: preview
           NEXT_TELEMETRY_DISABLED: 1
       
+      # Option 1: Use Next.js production server (Recommended)
+      - name: Start Next.js server
+        run: npm start &
+        env:
+          PORT: 3000
+      
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3000 --timeout 60000
+      
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.12.x
@@ -50,3 +59,6 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}
+      
+      - name: Stop server
+        run: pkill -f "next start" || true
