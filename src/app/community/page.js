@@ -7,28 +7,30 @@ import CommunityUI from "@/components/community/communityUI";
 export default function CommunityHubServerPage() {
   const communityStats = [
     {
-      metric: "88%",
-      description: "Safer communities since neighbourhood watch introduction",
+      metric: "92%",
+      description:
+        "Reduction in crime rates through community policing initiatives",
       icon: "🛡️",
-      color: "text-green-500",
+      color: "text-emerald-600",
     },
     {
-      metric: "1.7%",
-      description: "Infant mortality rate thanks to healthcare services",
-      icon: "👶",
-      color: "text-blue-500",
+      metric: "2.1M+",
+      description:
+        "Residents served across Alimosho's 6 local government wards",
+      icon: "👥",
+      color: "text-blue-600",
     },
     {
-      metric: "78%",
-      description: "Public school graduates in higher institutions",
-      icon: "🎓",
-      color: "text-purple-500",
+      metric: "85%",
+      description: "Residents with access to improved healthcare facilities",
+      icon: "🏥",
+      color: "text-red-500",
     },
     {
-      metric: "65%",
-      description: "Reduction in LGA office queues with online services",
-      icon: "⏱️",
-      color: "text-indigo-500",
+      metric: "72%",
+      description: "Digital literacy rate among youth population (15-35 years)",
+      icon: "💻",
+      color: "text-amber-600",
     },
   ];
 
@@ -36,47 +38,46 @@ export default function CommunityHubServerPage() {
     {
       title: "Local Services",
       description:
-        "Access government services online - Skip the queue, save time!",
+        "Access Alimosho government services online - Process applications from home!",
       icon: "🏢",
       path: "/yellow-page",
       stats: `${
         Object.values(localServicesData).flat().length
-      } services available`,
-      color: "from-indigo-500 to-cyan-500",
+      } services available across Alimosho`,
+      color: "from-blue-600 to-cyan-600",
       features: [
-        "Online Applications",
-        "24/7 Emergency Services",
-        "Digital Payments",
+        "Birth & Death Registration",
+        "Business Permits",
+        "Tax Payments",
       ],
     },
     {
-      title: "Streets & Councilors",
-      description: "Find your ward councilor and local representatives",
+      title: "Wards & Councilors",
+      description:
+        "Connect with your local representatives across Alimosho's 6 wards",
       icon: "🏘️",
       path: "/contact",
-      stats: `${wardsData.length} wards covered`,
-      color: "from-green-500 to-teal-500",
-      features: ["Ward Information", "Councilor Contacts", "Street Directory"],
+      stats: `${wardsData.length} wards serving 2.1M+ residents`,
+      color: "from-emerald-600 to-teal-600",
+      features: ["Ward Boundaries", "Councilor Profiles", "Community Projects"],
     },
     {
       title: "Public Institutions",
-      description: "Directory of schools, hospitals, and public facilities",
+      description:
+        "Comprehensive directory of Alimosho's public facilities and services",
       icon: "🏫",
       path: "/community/yellow-page",
-      stats: `${publicInstitutions.length} institutions listed`,
-      color: "from-purple-500 to-pink-500",
+      stats: `${publicInstitutions.length} institutions serving the community`,
+      color: "from-purple-600 to-fuchsia-600",
       features: [
-        "Schools & Hospitals",
-        "Contact Information",
-        "Location Details",
+        "Schools & Educational Centers",
+        "Healthcare Facilities",
+        "Government Offices",
       ],
     },
   ];
 
   return (
-    <CommunityUI
-      communityStats={communityStats}
-      featureCards={featureCards}
-    />
+    <CommunityUI communityStats={communityStats} featureCards={featureCards} />
   );
 }

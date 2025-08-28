@@ -3,348 +3,338 @@
 export const localServicesData = {
   emergencyServices: [
     {
-      id: "makinde-police",
-      name: "Makinde Police Division",
+      id: "alimosho-police",
+      name: "Alimosho Police Command",
       category: "Emergency Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4567",
-        email: "makinde.police@lagosstate.gov.ng"
+        phone: "+234-807-333-4444",
+        email: "alimosho.police@lagosstate.gov.ng",
       },
-      address: "Makinde Street, Mafoluku, Oshodi, Lagos",
-      coordinates: { lat: 6.5244, lng: 3.3792 },
+      address: "Alimosho LGA Headquarters, Ikotun, Lagos",
       hours: "24/7",
       status: "Available",
-      description: "Full-service police station handling criminal matters, complaints, and emergency response.",
-      onlineServices: ["Report Crime Online", "Police Report Request"],
+      description:
+        "Main police command serving Alimosho's 2.1M+ residents across 6 wards.",
+      onlineServices: [
+        "Report Crime Online",
+        "Police Report Request",
+        "Emergency Alert",
+      ],
       processingTime: "Immediate for emergencies",
-  //    requirements: "Valid ID for visits, incident details for reports",
       fees: "Free for emergencies",
-      hasOnlineOption: true
+      hasOnlineOption: true,
     },
     {
-      id: "akinpelu-police",
-      name: "Akinpelu Police Division",
+      id: "igando-general-hospital",
+      name: "Igando General Hospital",
       category: "Emergency Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4568",
-        email: "akinpelu.police@lagosstate.gov.ng"
+        phone: "+234-807-333-5555",
+        email: "igando.hospital@lagosstate.gov.ng",
       },
-      address: "Akinpelu Street, Bolade, Oshodi-Isolo",
-      coordinates: { lat: 6.5150, lng: 3.3420 },
+      address: "General Hospital Road, Igando, Alimosho, Lagos",
       hours: "24/7",
       status: "Available",
-      description: "Community policing and crime prevention services.",
-      onlineServices: ["Report Crime Online", "Police Report Request"],
-      processingTime: "Immediate for emergencies",
-      // requirements: "Valid ID, incident details",
-      fees: "Free for emergencies",
-      hasOnlineOption: true
+      description:
+        "Major public hospital serving Alimosho with emergency and specialist services.",
+      onlineServices: [
+        "Emergency Appointment",
+        "Ambulance Request",
+        "Medical Records",
+      ],
+      processingTime: "Immediate emergency care",
+      fees: "Subsidized rates for residents",
+      hasOnlineOption: true,
     },
     {
-      id: "mosafejo-police",
-      name: "Mosafejo Police Division",
-      category: "Emergency Services", 
-      priority: 1,
-      contact: {
-        phone: "+234-803-123-4569",
-        email: "mosafejo.police@lagosstate.gov.ng"
-      },
-      address: "Mosafejo Street, beside LASTMA Office, Oshodi-Isolo, Lagos",
-      coordinates: { lat: 6.5300, lng: 3.3500 },
-      hours: "24/7",
-      status: "Available",
-      description: "Traffic and general police services.",
-      onlineServices: ["Traffic Report", "Police Report Request"],
-      processingTime: "Immediate for emergencies",
-      // requirements: "Valid ID",
-     fees: "Free for emergencies",
-      hasOnlineOption: true
-    },
-    {
-      id: "shogunle-police",
-      name: "Shogunle Police Division",
+      id: "alimosho-fire-service",
+      name: "Alimosho Fire Station",
       category: "Emergency Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4570",
-        email: "shogunle.police@lagosstate.gov.ng"
+        phone: "+234-807-333-6666",
+        email: "fire.service@alimosho.gov.ng",
       },
-      address: "Shogunle Street, by Oshodi Bus Stop, Oshodi-Isolo, Lagos",
-      coordinates: { lat: 6.5280, lng: 3.3450 },
-      hours: "24/7", 
+      address: "Fire Service Road, Egbeda, Alimosho, Lagos",
+      hours: "24/7",
       status: "Available",
-      description: "General police services and community safety.",
-      onlineServices: ["Report Crime Online", "Police Report Request"],
-      processingTime: "Immediate for emergencies",
-      // requirements: "Valid ID",
-     fees: "Free for emergencies",
-      hasOnlineOption: true
-    }
+      description:
+        "Fire and rescue services for Alimosho's residential and commercial areas.",
+      onlineServices: [
+        "Emergency Call",
+        "Fire Safety Inspection",
+        "Rescue Request",
+      ],
+      processingTime: "Immediate response",
+      fees: "Free emergency services",
+      hasOnlineOption: true,
+    },
   ],
 
   onlineFirstServices: [
     {
-      id: "business-permit",
-      name: "Permit",
+      id: "alimosho-business-permit",
+      name: "Business Permit & Registration",
       category: "Online-First Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4571",
-        email: "permits@oshodi-isolo.gov.ng"
+        phone: "+234-807-333-7777",
+        email: "permits@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo LGA Secretariat, Oshodi, Lagos",
-      coordinates: { lat: 6.5244, lng: 3.3792 },
-      hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+      address: "Alimosho LGA Secretariat, Ikotun, Lagos",
+      hours: "8:00 AM - 4:00 PM (Mon-Fri)",
       status: "Available",
-      description: "Register new businesses, renew permits, business name registration - now available online!",
+      description:
+        "Business registration, permits, and licensing for Alimosho entrepreneurs.",
       onlineServices: [
-        "Apply for New Permit",
-        "Renew Existing Permit",
-        "Check Application Status",
-        "Download Certificate",
-        "Pay Fees Online"
+        "New Business Registration",
+        "Permit Renewal",
+        "Application Tracking",
+        "Digital Certificate",
+        "Online Payment",
       ],
-      processingTime: "3-5 business days online, 7-10 days in-person",
-      requirements: "Business plan, valid ID, proof of address, CAC certificate",
-      fees: "₦15,000 - ₦50,000 (pay online for 10% discount)",
-      hasOnlineOption: true
+      processingTime: "2-3 business days online",
+      requirements:
+        "Business plan, valid ID, proof of address, CAC certificate",
+      fees: "₦2,500 - ₦4,500 (online discount available)",
+      hasOnlineOption: true,
     },
     {
-      id: "tax-payment",
+      id: "alimosho-tax-services",
       name: "Tax Payment & Assessment",
       category: "Online-First Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4572", 
-        email: "tax@oshodi-isolo.gov.ng"
+        phone: "+234-807-333-8888",
+        email: "tax@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo LGA Tax Office, Oshodi, Lagos",
-      coordinates: { lat: 6.5200, lng: 3.3750 },
+      address: "Alimosho Tax Office, Ikotun, Lagos",
       hours: "8:00 AM - 4:00 PM (Mon-Fri)",
       status: "Available",
-      description: "Pay personal income tax, property tax, and get tax clearance certificates online.",
+      description:
+        "Personal and business tax services for Alimosho residents and enterprises.",
       onlineServices: [
-        "Pay Income Tax Online",
-        "Property Tax Payment", 
-        "Download Tax Clearance",
-        "Tax Assessment Appeal",
-        "Payment History"
+        "Income Tax Payment",
+        "Property Tax Online",
+        "Tax Clearance Certificate",
+        "Payment History",
+        "Assessment Appeal",
       ],
-      processingTime: "Instant online payment, 24-48 hours for certificates",
-      requirements: "Valid ID, TIN number, property documents (for property tax)",
-      fees: "Varies by income/property value (online payment saves time)",
-      hasOnlineOption: true
+      processingTime: "Instant online processing",
+      requirements: "Valid ID, TIN number, property documents",
+      fees: "Variable based on income/property (online discounts)",
+      hasOnlineOption: true,
     },
     {
-      id: "birth-certificate",
-      name: "Birth Certificate Registration",
-      category: "Online-First Services", 
+      id: "alimosho-birth-registration",
+      name: "Birth & Death Registration",
+      category: "Online-First Services",
       priority: 1,
       contact: {
-        phone: "+234-803-123-4573",
-        email: "registry@oshodi-isolo.gov.ng"
+        phone: "+234-807-333-9999",
+        email: "registry@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Registry Office, Oshodi, Lagos",
-      coordinates: { lat: 6.5150, lng: 3.3800 },
-      hours: "9:00 AM - 3:00 PM (Mon-Fri)",
+      address: "Alimosho Registry Office, Ikotun, Lagos",
+      hours: "8:00 AM - 4:00 PM (Mon-Fri)",
       status: "Available",
-      description: "Register births and obtain certificates online - skip the queue!",
+      description:
+        "Civil registration services for births and deaths across Alimosho.",
       onlineServices: [
-        "Apply for Birth Certificate",
-        "Correct Birth Certificate",
-        "Track Application Status",
-        "Download Certificate",
-        "Pay Processing Fees"
+        "Birth Certificate Application",
+        "Death Registration",
+        "Certificate Correction",
+        "Status Tracking",
+        "Online Payment",
       ],
-      processingTime: "5-7 days online, 14-21 days in-person",
-      requirements: "Hospital birth record, parents' ID, marriage certificate",
-      fees: "₦3,000 online, ₦5,000 in-person",
-      hasOnlineOption: true
-    }
+      processingTime: "3-5 days online processing",
+      requirements: "Hospital records, parents' ID, marriage certificate",
+      fees: "₦2,500 online registration",
+      hasOnlineOption: true,
+    },
   ],
 
   utilitiesInfrastructure: [
     {
-      id: "primary-healthcare",
+      id: "alimosho-health-centers",
       name: "Primary Healthcare Centers",
       category: "Utilities & Infrastructure",
       priority: 2,
       contact: {
-        phone: "+234-803-123-4574",
-        email: "health@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-0000",
+        email: "health@alimosho.gov.ng",
       },
-      address: "Multiple locations across Oshodi-Isolo LGA",
-      coordinates: { lat: 6.5244, lng: 3.3792 },
+      address: "Multiple locations across Alimosho's 6 wards",
       hours: "8:00 AM - 4:00 PM (Mon-Fri), Emergency 24/7",
       status: "Available",
-      description: "Maternal health, child immunization, family planning, and basic medical services.",
+      description:
+        "Network of 12 primary healthcare centers serving Alimosho communities.",
       onlineServices: [
-        "Book Appointment Online",
-        "Download Health Records",
+        "Appointment Booking",
         "Vaccination Schedule",
-        "Antenatal Registration"
+        "Health Records",
+        "Antenatal Registration",
       ],
-      processingTime: "Same day for appointments, instant for records",
-      requirements: "Health insurance card or payment, valid ID",
-      fees: "₦500 - ₦2,000 per consultation",
-      hasOnlineOption: true
+      processingTime: "Same-day appointments",
+      requirements: "Health insurance or payment, valid ID",
+      fees: "₦400 - ₦1,800 per consultation",
+      hasOnlineOption: true,
     },
     {
-      id: "waste-management",
+      id: "alimosho-waste-management",
       name: "Waste Management Services",
       category: "Utilities & Infrastructure",
       priority: 2,
       contact: {
-        phone: "+234-803-123-4575",
-        email: "waste@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-1111",
+        email: "waste@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Environmental Office, Lagos",
-      coordinates: { lat: 6.5300, lng: 3.3700 },
+      address: "Alimosho Environmental Office, Egbeda, Lagos",
       hours: "24/7 Collection Service",
       status: "Available",
-      description: "Household waste collection, recycling programs, and environmental services.",
+      description:
+        "Comprehensive waste collection and environmental services for Alimosho.",
       onlineServices: [
-        "Schedule Waste Pickup",
-        "Report Missed Collection",
-        "Pay Waste Bills Online",
-        "Request Recycling Service"
+        "Waste Pickup Scheduling",
+        "Missed Collection Report",
+        "Online Bill Payment",
+        "Recycling Program",
       ],
-      processingTime: "24-48 hours for pickup requests",
-      requirements: "Property address verification",
-      fees: "₦1,500 monthly for households, ₦5,000+ for businesses",
-      hasOnlineOption: true
+      processingTime: "24-hour response",
+      requirements: "Property verification",
+      fees: "₦1,200 monthly residential, ₦4,500+ commercial",
+      hasOnlineOption: true,
     },
     {
-      id: "water-sewage",
-      name: "Water & Sewage Services",
+      id: "alimosho-water-services",
+      name: "Water & Public Utilities",
       category: "Utilities & Infrastructure",
       priority: 2,
       contact: {
-        phone: "+234-803-123-4576",
-        email: "water@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-2222",
+        email: "water@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Water Works, Lagos",
-      coordinates: { lat: 6.5180, lng: 3.3650 },
+      address: "Alimosho Water Works, Ikotun, Lagos",
       hours: "8:00 AM - 5:00 PM (Mon-Fri), Emergency 24/7",
       status: "Available",
-      description: "Water supply connections, sewage services, and pipeline maintenance.",
+      description:
+        "Water supply and public utilities management for Alimosho residents.",
       onlineServices: [
-        "Apply for Water Connection",
-        "Report Water Issues",
-        "Pay Water Bills",
-        "Request Maintenance"
+        "Water Connection Application",
+        "Issue Reporting",
+        "Bill Payment",
+        "Maintenance Request",
       ],
-      processingTime: "3-5 days for connections, 24 hours for repairs",
-      requirements: "Property ownership proof, application fee",
-      fees: "₦25,000 connection fee, monthly bills vary",
-      hasOnlineOption: true
+      processingTime: "2-4 days for connections",
+      requirements: "Property ownership proof",
+      fees: "₦20,000 connection fee, variable monthly bills",
+      hasOnlineOption: true,
     },
     {
-      id: "road-maintenance",
-      name: "Road Maintenance & Infrastructure",
+      id: "alimosho-road-maintenance",
+      name: "Road & Infrastructure Maintenance",
       category: "Utilities & Infrastructure",
       priority: 3,
       contact: {
-        phone: "+234-803-123-4577",
-        email: "roads@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-3333",
+        email: "infrastructure@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Works Department, Lagos",
-      coordinates: { lat: 6.5220, lng: 3.3680 },
+      address: "Alimosho Works Department, Ikotun, Lagos",
       hours: "8:00 AM - 5:00 PM (Mon-Fri)",
       status: "Available",
-      description: "Road repairs, street lighting, drainage, and general infrastructure maintenance.",
+      description:
+        "Road maintenance, drainage, and public infrastructure services.",
       onlineServices: [
-        "Report Road Damage",
-        "Request Street Light Repair",
-        "Submit Infrastructure Complaint",
-        "Track Repair Status"
+        "Road Issue Reporting",
+        "Street Light Repair",
+        "Drainage Complaint",
+        "Repair Status Tracking",
       ],
-      processingTime: "7-14 days depending on issue severity",
-      requirements: "Location details, photo evidence preferred",
-      fees: "Free for public infrastructure",
-      hasOnlineOption: true
-    }
+      processingTime: "5-10 days depending on severity",
+      requirements: "Location details, photo evidence",
+      fees: "Free public infrastructure maintenance",
+      hasOnlineOption: true,
+    },
   ],
 
   administrativeServices: [
     {
-      id: "marriage-certificate",
-      name: "Marriage Certificate Registration",
+      id: "alimosho-marriage-registry",
+      name: "Marriage Registration",
       category: "Administrative Services",
       priority: 2,
       contact: {
-        phone: "+234-803-123-4578",
-        email: "marriage@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-4444",
+        email: "marriage@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Marriage Registry, Lagos",
-      coordinates: { lat: 6.5190, lng: 3.3720 },
+      address: "Alimosho Marriage Registry, Ikotun, Lagos",
       hours: "9:00 AM - 3:00 PM (Mon-Fri)",
       status: "Available",
-      description: "Marriage registration, certificate issuance, and marriage verification services.",
+      description:
+        "Marriage registration and certificate services for Alimosho residents.",
       onlineServices: [
-        "Book Marriage Date",
-        "Download Marriage Certificate",
-        "Marriage Verification",
-        "Pay Registration Fees"
+        "Marriage Date Booking",
+        "Certificate Application",
+        "Verification Services",
+        "Online Payment",
       ],
-      processingTime: "Same day for ceremonies, 3-5 days for certificates",
-      requirements: "Valid IDs, divorce certificate (if applicable), witnesses",
-      fees: "₦10,000 registration + ₦5,000 certificate",
-      hasOnlineOption: true
+      processingTime: "Same-day ceremony, 2-3 days certificates",
+      requirements: "Valid IDs, witnesses, previous marriage documents",
+      fees: "₦8,500 registration + ₦4,000 certificate",
+      hasOnlineOption: true,
     },
     {
-      id: "death-certificate",
-      name: "Death Certificate Registration",
-      category: "Administrative Services",
-      priority: 2,
-      contact: {
-        phone: "+234-803-123-4579",
-        email: "registry@oshodi-isolo.gov.ng"
-      },
-      address: "Oshodi-Isolo Registry Office, Lagos",
-      coordinates: { lat: 6.5150, lng: 3.3800 },
-      hours: "9:00 AM - 3:00 PM (Mon-Fri)",
-      status: "Available",
-      description: "Death registration and certificate issuance for legal and administrative purposes.",
-      onlineServices: [
-        "Register Death Online",
-        "Download Death Certificate",
-        "Death Verification",
-        "Correction Requests"
-      ],
-      processingTime: "5-7 days",
-      requirements: "Medical certificate of death, ID of deceased, next of kin ID",
-      fees: "₦3,000 registration + ₦2,000 per certificate copy",
-      hasOnlineOption: true
-    },
-    {
-      id: "land-documentation",
+      id: "alimosho-land-services",
       name: "Land Documentation Services",
       category: "Administrative Services",
       priority: 3,
       contact: {
-        phone: "+234-803-123-4580",
-        email: "lands@oshodi-isolo.gov.ng"
+        phone: "+234-807-444-5555",
+        email: "lands@alimosho.gov.ng",
       },
-      address: "Oshodi-Isolo Lands Office, Lagos",
-      coordinates: { lat: 6.5170, lng: 3.3760 },
+      address: "Alimosho Lands Office, Ikotun, Lagos",
       hours: "9:00 AM - 3:00 PM (Mon-Fri)",
-      status: "Limited Services",
-      description: "Land ownership verification, building permits, and property documentation.",
+      status: "Available",
+      description:
+        "Land verification, property documentation, and building permits.",
       onlineServices: [
-        "Verify Land Ownership",
-        "Apply for Building Permit",
+        "Land Verification",
+        "Building Permit Application",
         "Property Search",
-        "Document Certification"
+        "Document Certification",
       ],
-      processingTime: "14-21 days for permits, 7 days for verification",
-      requirements: "Survey plans, land documents, architectural drawings (for permits)",
-      fees: "₦50,000 - ₦200,000 depending on property size and permit type",
-      hasOnlineOption: false
-    }
-  ]
+      processingTime: "10-15 days for permits",
+      requirements: "Survey plans, land documents, architectural drawings",
+      fees: "₦45,000 - ₦180,000 based on property type",
+      hasOnlineOption: false,
+    },
+    {
+      id: "alimosho-community-services",
+      name: "Community Development Services",
+      category: "Administrative Services",
+      priority: 2,
+      contact: {
+        phone: "+234-807-444-6666",
+        email: "community@alimosho.gov.ng",
+      },
+      address: "Alimosho Community Development Office, Ikotun, Lagos",
+      hours: "8:00 AM - 4:00 PM (Mon-Fri)",
+      status: "Available",
+      description:
+        "Community projects, youth programs, and social development initiatives.",
+      onlineServices: [
+        "Project Proposal Submission",
+        "Community Grant Application",
+        "Event Registration",
+        "Volunteer Sign-up",
+      ],
+      processingTime: "7-14 days for grant applications",
+      requirements: "Community group registration, project proposal",
+      fees: "Free community services",
+      hasOnlineOption: true,
+    },
+  ],
 };
 
 // Helper function to get all services sorted by priority and online availability
@@ -353,28 +343,28 @@ export const getAllServices = () => {
     ...localServicesData.emergencyServices,
     ...localServicesData.onlineFirstServices,
     ...localServicesData.utilitiesInfrastructure,
-    ...localServicesData.administrativeServices
+    ...localServicesData.administrativeServices,
   ];
 
   return allServices.sort((a, b) => {
     // First sort by online availability (online first)
     if (a.hasOnlineOption && !b.hasOnlineOption) return -1;
     if (!a.hasOnlineOption && b.hasOnlineOption) return 1;
-    
+
     // Then by priority
     return a.priority - b.priority;
   });
 };
 
 export const getServicesByCategory = (category) => {
-  switch(category) {
-    case 'Emergency Services':
+  switch (category) {
+    case "Emergency Services":
       return localServicesData.emergencyServices;
-    case 'Online-First Services':
+    case "Online-First Services":
       return localServicesData.onlineFirstServices;
-    case 'Utilities & Infrastructure':
+    case "Utilities & Infrastructure":
       return localServicesData.utilitiesInfrastructure;
-    case 'Administrative Services':
+    case "Administrative Services":
       return localServicesData.administrativeServices;
     default:
       return [];
