@@ -31,8 +31,6 @@ api.interceptors.response.use(
   }
 );
 
-
-
 /**
  * Traditional Signup Action
  */
@@ -162,18 +160,24 @@ export const authenticateWithGoogle = (googleData) => async (dispatch) => {
  * Check Session Action
  */
 export const checkSession = () => async (dispatch, getState) => {
+  const { isSessionChecking } = getState().auth;
+
+  // Prevent multiple simultaneous checks
+  if (isSessionChecking) {
+    console.log("🔍 Session check already in progress, skipping...");
+    return;
+  }
+
   dispatch({ type: AUTH_ACTIONS.CHECK_SESSION_REQUEST });
 
   try {
     console.log("🔍 Checking session...");
 
-    // Make the API call to verify the session
     const response = await api.get(API_ENDPOINTS.VERIFY_SESSION);
     const { user, authProvider, lastLoginAt } = response.data;
 
-    console.log("✅ Session check successful:", { user, authProvider });
+    console.log("✅ Session check successful");
 
-    // Dispatch success with complete data
     dispatch({
       type: AUTH_ACTIONS.CHECK_SESSION_SUCCESS,
       payload: {
@@ -183,31 +187,89 @@ export const checkSession = () => async (dispatch, getState) => {
       },
     });
 
-    return {
-      type: "auth/checkSessionSuccess",
-      user,
-      authProvider,
-      success: true,
-    };
+    return { success: true, user, authProvider };
   } catch (error) {
     console.error("❌ Session check failed:", error);
 
+    // Handle different error types
     const errorMessage =
       error.response?.data?.message || error.message || "Session expired";
+    const statusCode = error.response?.status;
 
     dispatch({
       type: AUTH_ACTIONS.CHECK_SESSION_FAILURE,
       payload: errorMessage,
     });
 
-    return {
-      type: "auth/checkSessionFailure",
-      error: errorMessage,
-      success: false,
-    };
+    // If token is invalid/expired, clear auth state
+    if (statusCode === 401) {
+      dispatch(clearAuthState());
+    }
+
+    return { success: false, error: errorMessage };
   }
 };
 
+// Token refresh functionality
+export const refreshToken = () => async (dispatch, getState) => {
+  const { isRefreshing, token } = getState().auth;
+
+  // Prevent multiple refresh attempts
+  if (isRefreshing) {
+    console.log("🔄 Token refresh already in progress, skipping...");
+    return;
+  }
+
+  // Must have a token to refresh
+  if (!token) {
+    console.log("❌ No token available for refresh");
+    return;
+  }
+
+  dispatch({ type: AUTH_ACTIONS.REFRESH_TOKEN_REQUEST });
+
+  try {
+    console.log("🔄 Refreshing token...");
+
+    // Call your refresh endpoint
+    const response = await api.post(API_ENDPOINTS.REFRESH_TOKEN);
+    const {
+      user,
+      token: newToken,
+      tokenExpiry,
+      refreshToken: newRefreshToken,
+    } = response.data;
+
+    console.log("✅ Token refreshed successfully");
+
+    dispatch({
+      type: AUTH_ACTIONS.REFRESH_TOKEN_SUCCESS,
+      payload: {
+        user,
+        token: newToken,
+        tokenExpiry,
+        refreshToken: newRefreshToken,
+      },
+    });
+
+    return { success: true, token: newToken };
+  } catch (error) {
+    console.error("❌ Token refresh failed:", error);
+
+    const errorMessage =
+      error.response?.data?.message || "Token refresh failed";
+
+    dispatch({
+      type: AUTH_ACTIONS.REFRESH_TOKEN_FAILURE,
+      payload: errorMessage,
+    });
+
+    // If refresh fails, user needs to login again
+    dispatch(clearAuthState());
+
+    return { success: false, error: errorMessage };
+  }
+};
 /**
  * Get User Profile Action
  */
@@ -283,23 +345,22 @@ export const logoutUser = () => async (dispatch) => {
   dispatch({ type: AUTH_ACTIONS.LOGOUT_REQUEST });
 
   try {
-    // Call logout endpoint (optional - for token blacklisting)
+    // Clear server-side session (HttpOnly cookie)
     await api.post(API_ENDPOINTS.LOGOUT);
   } catch (error) {
-    // Continue with logout even if API call fails
     console.warn("Logout API call failed:", error);
   } finally {
-    // Clear local storage
+    // Clear client storage
     localStorage.removeItem("auth_token");
     localStorage.removeItem("user_data");
 
+    // Dispatch success - this should reset the auth state
     dispatch({
       type: AUTH_ACTIONS.LOGOUT_SUCCESS,
       payload: { message: "Logged out successfully" },
     });
   }
 };
-
 
 // Clear auth errors
 export const clearAuthErrors = () => ({

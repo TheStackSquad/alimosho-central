@@ -1,5 +1,5 @@
 // src/redux/lib/constant.js
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from "@reduxjs/toolkit";
 
 // Authentication Action Types
 export const AUTH_ACTIONS = {
@@ -22,6 +22,11 @@ export const AUTH_ACTIONS = {
   CHECK_SESSION_SUCCESS: "auth/checkSessionSuccess",
   CHECK_SESSION_FAILURE: "auth/checkSessionFailure",
 
+  // Refresh token actions
+  REFRESH_TOKEN_REQUEST: "auth/refreshTokenRequest",
+  REFRESH_TOKEN_SUCCESS: "auth/refreshTokenSuccess",
+  REFRESH_TOKEN_FAILURE: "auth/refreshTokenFailure",
+
   // Profile Management
   GET_PROFILE_REQUEST: "auth/getProfileRequest",
   GET_PROFILE_SUCCESS: "auth/getProfileSuccess",
@@ -37,14 +42,10 @@ export const AUTH_ACTIONS = {
   LOGOUT_FAILURE: "auth/logoutFailure",
 
   // State Management
+  CLEAR_AUTH_STATE: "auth/clearAuthState",
   CLEAR_AUTH_ERRORS: "auth/clearAuthErrors",
   SET_AUTH_LOADING: "auth/setAuthLoading",
   RESET_AUTH_STATE: "auth/resetAuthState",
-
-  // Legacy Support (for existing requestPasscode)
-  REQUEST_PASSCODE_REQUEST: "auth/requestPasscodeRequest",
-  REQUEST_PASSCODE_SUCCESS: "auth/requestPasscodeSuccess",
-  REQUEST_PASSCODE_FAILURE: "auth/requestPasscodeFailure",
 };
 
 // API Endpoints
@@ -54,6 +55,7 @@ export const API_ENDPOINTS = {
   GOOGLE_AUTH: "/api/auth/google",
   GOOGLE_CALLBACK: "/api/auth/google/callback",
   VERIFY_SESSION: "/api/auth/verify",
+  REFRESH_TOKEN: "/api/auth/refresh",
   LOGOUT: "/api/auth/logout",
   PROFILE: "/api/auth/profile",
 };
@@ -128,7 +130,7 @@ export const selectIsAuthenticated = (state) => {
   return !!(user && (user.email || user.id || user.userId));
 };
 
-export const selectAuthLoading = (state) => 
+export const selectAuthLoading = (state) =>
   state.auth.loading || state.auth.isSessionChecking || false;
 
 export const selectUserId = (state) => {
@@ -140,18 +142,19 @@ export const selectUserEmail = (state) => state.auth.user?.email || null;
 
 export const selectUserPhone = (state) => state.auth.user?.phone || null;
 
-export const selectUserName = (state) => 
-  state.auth.user?.username || 
-  state.auth.user?.full_name || 
-  state.auth.user?.name || null;
+export const selectUserName = (state) =>
+  state.auth.user?.username ||
+  state.auth.user?.full_name ||
+  state.auth.user?.name ||
+  null;
 
-export const selectIsVerified = (state) => 
+export const selectIsVerified = (state) =>
   state.auth.user?.is_verified || state.auth.user?.isVerified || false;
 
-export const selectAuthProvider = (state) => 
-  state.auth.authProvider || state.auth.user?.authProvider || 'traditional';
+export const selectAuthProvider = (state) =>
+  state.auth.authProvider || state.auth.user?.authProvider || "traditional";
 
-export const selectSessionChecked = (state) => 
+export const selectSessionChecked = (state) =>
   state.auth.sessionChecked || false;
 
 // FIXED: Memoized compound selector
@@ -164,9 +167,9 @@ export const selectAuthState = createSelector(
     selectUserEmail,
     selectUserName,
     selectIsVerified,
-    selectSessionChecked
+    selectSessionChecked,
   ],
-  (user, isAuthenticated, loading, userId, email, username, isVerified, sessionChecked) => ({
+  (
     user,
     isAuthenticated,
     loading,
@@ -175,5 +178,14 @@ export const selectAuthState = createSelector(
     username,
     isVerified,
     sessionChecked
+  ) => ({
+    user,
+    isAuthenticated,
+    loading,
+    userId,
+    email,
+    username,
+    isVerified,
+    sessionChecked,
   })
 );
