@@ -32,7 +32,7 @@ export async function generateAuthToken(user) {
       isVerified: user.is_verified,
       // Add other non-sensitive data as needed
     };
-      console.log("unvieling payload:", payload);
+    console.log("unvieling payload:", payload);
 
     // Create and sign the JWT using the jose library
     const jwt = await new SignJWT(payload)

@@ -4,12 +4,6 @@ import { useState, useEffect } from "react";
 // Import the singleton instance, do NOT import createClient
 import { supabase } from "@/utils/supabase/supaClient";
 
-/**
- * A custom hook to fetch and manage real-time web performance metrics from Supabase.
- * It fetches historical data on mount and subscribes to new data inserts.
- *
- * @returns {object} An object containing all performance data and loading state.
- */
 export const usePerformanceMetrics = () => {
   // State to hold all performance metrics data
   const [performanceMetrics, setPerformanceMetrics] = useState([]);
@@ -30,9 +24,14 @@ export const usePerformanceMetrics = () => {
     const fetchDataAndSubscribe = async () => {
       try {
         // 1. Fetch initial historical data from the 'performance_metrics' table
-        const { data, error: fetchError } = await supabase // Use the imported singleton
+
+        const twentyFourHoursAgo = new Date(
+          Date.now() - 24 * 60 * 60 * 1000
+        ).toISOString();
+        const { data, error: fetchError } = await supabase
           .from("performance_metrics")
           .select("*")
+          .gte("created_at", twentyFourHoursAgo) // ← ONLY THIS LINE ADDED
           .order("created_at", { ascending: false });
 
         if (fetchError) {

@@ -9,7 +9,6 @@ import ErrorBoundaryInit from "@/errorBoundary/errorBoundaryInit";
 import ClientOnlyWrapper from "@/components/common/clientOnlyWrapper";
 import HydrationProvider from "@/components/common/hydrationProvider";
 import RealUserMonitoring from "@/components/performance/realUserMonitoring";
-import NextAuthProvider from "@/layoutProvider/nextAuthProvider";
 import { NavigationProvider } from "@/components/common/contexts/navigationContext";
 
 export const metadata = {
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
           <ErrorBoundaryInit>
             <HydrationProvider>
               <ReduxProvider>
-                <NextAuthProvider>
+                
                   <NavigationProvider>
                     {/* Header with loading skeleton */}
                     <ClientOnlyWrapper fallback={<HeaderSkeleton />}>
@@ -54,7 +53,7 @@ export default function RootLayout({ children }) {
                       <RealUserMonitoring />
                     </ClientOnlyWrapper>
                   </NavigationProvider>
-                </NextAuthProvider>
+             
               </ReduxProvider>
             </HydrationProvider>
           </ErrorBoundaryInit>
