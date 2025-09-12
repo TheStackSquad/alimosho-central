@@ -1,116 +1,137 @@
-// src/components/common/nav/DesktopNav.jsx
+// src/components/common/nav/desktopNav.jsx
+"use client";
+
+import React, { useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { getIcon } from "@/utils/icons";
-import { NavDropdown } from "@/utils/hooks/navDropdown";
-
-// Sub-component for a single navigation link
-const NavLink = ({ item }) => {
-  const pathname = usePathname();
-  const isActive = item.path === pathname;
-
-  // In DesktopNav.jsx and MobileMenu.jsx, update the navigation handlers:
-
-  const handleNavigation = (path, closeDropdown) => {
-    if (path.includes("#")) {
-      // For hash links, we need to handle smooth scrolling
-      const [basePath, hash] = path.split("#");
-      if (window.location.pathname === basePath) {
-        // We're already on the page, scroll to section
-        scrollToSection(hash);
-      } else {
-        // Navigate to page first, then scroll to section
-        window.location.href = path;
-      }
-    } else {
-      // Regular navigation
-      window.location.href = path;
-    }
-    closeDropdown();
-  };
-
-  return (
-    <Link
-      href={item.path}
-      className={`
-        relative py-2 px-3 transition-colors duration-300 font-medium whitespace-nowrap
-        before:content-[''] before:absolute before:left-1/2 before:-bottom-0.5 before:h-0.5
-        before:transition-all before:duration-300 before:ease-out before:-translate-x-1/2 before:rounded-full
-        ${
-          isActive
-            ? "text-primary dark:text-primary before:w-full before:bg-primary dark:before:bg-primary"
-            : "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:before:w-full hover:before:bg-primary dark:hover:before:bg-primary"
-        }
-      `}
-    >
-      {item.label}
-    </Link>
-  );
-};
+import { navItems } from "@/data/navigationData";
+import {
+  chevronVariants,
+  navItemHover,
+  navItemTap,
+} from "@/animation/navbarAnimate";
+import DropdownMenu from "./dropdownMenu";
 
 export default function DesktopNav({
-  navItems,
-  isOpen,
+  activeDropdown,
   toggleDropdown,
   closeDropdown,
-  dropdownRef,
+  isDropdownOpen,
 }) {
-  const handleDropdownClick = (e, dropdownName) => {
-    e.preventDefault();
-    toggleDropdown(dropdownName);
+  const pathname = usePathname();
+  const dropdownRefs = useRef({});
+
+  const isActiveLink = (path) => {
+    return pathname === path;
+  };
+
+  const isActiveParent = (item) => {
+    if (isActiveLink(item.path)) return true;
+
+    if (item.dropdown) {
+      return item.dropdown.some(
+        (dropdownItem) => dropdownItem.path && isActiveLink(dropdownItem.path)
+      );
+    }
+
+    return false;
+  };
+
+  const handleDropdownToggle = (itemId, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleDropdown(itemId);
+  };
+
+  const handleMouseEnter = (itemId) => {
+    if (itemId && navItems.find((item) => item.id === itemId)?.hasDropdown) {
+      toggleDropdown(itemId);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Small delay to prevent accidental closing when moving to dropdown
+    setTimeout(() => {
+      closeDropdown();
+    }, 150);
   };
 
   return (
-    <nav className="hidden lg:flex items-center space-x-2 font-cinzel text-gray-700 dark:text-gray-300 text-sm">
+    <nav className="hidden md:flex items-center space-x-1" role="navigation">
       {navItems.map((item) => {
-        if (item.dropdown) {
-          const dropdownName = item.label.toLowerCase();
-          const isDropdownOpen = isOpen(dropdownName);
+        const isActive = isActiveParent(item);
+        const hasDropdownItems = item.hasDropdown && item.dropdown?.length > 0;
 
-          return (
-            <div key={item.label} className="relative z-20" ref={dropdownRef}>
-              <div className="flex items-center">
-                {/* Main button for the dropdown parent */}
-                <button
-                  onClick={(e) => handleDropdownClick(e, dropdownName)}
-                  className={`relative py-2 px-3 transition-colors duration-300 font-medium whitespace-nowrap
-                    before:content-[''] before:absolute before:left-1/2 before:-bottom-0.5 before:h-0.5
-                    before:transition-all before:duration-300 before:ease-out before:-translate-x-1/2 before:rounded-full
+        return (
+          <div
+            key={item.id}
+            className="relative"
+            onMouseEnter={() => handleMouseEnter(item.id)}
+            onMouseLeave={handleMouseLeave}
+            ref={(el) => (dropdownRefs.current[item.id] = el)}
+          >
+            {hasDropdownItems ? (
+              <motion.button
+                onClick={(e) => handleDropdownToggle(item.id, e)}
+                whileHover={navItemHover}
+                whileTap={navItemTap}
+                className={`
+                  flex items-center gap-1 px-4 py-2 rounded-lg
+                  font-medium transition-all duration-200
+                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                  ${
+                    isActive
+                      ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                      : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }
+                `}
+                aria-expanded={isDropdownOpen(item.id)}
+                aria-haspopup="true"
+                id={`${item.id}-dropdown-button`}
+              >
+                <span>{item.label}</span>
+                <motion.div
+                  variants={chevronVariants}
+                  animate={isDropdownOpen(item.id) ? "open" : "closed"}
+                >
+                  <ChevronDown size={16} className="ml-1" />
+                </motion.div>
+              </motion.button>
+            ) : (
+              <motion.div whileHover={navItemHover} whileTap={navItemTap}>
+                <Link
+                  href={item.path}
+                  className={`
+                    block px-4 py-2 rounded-lg
+                    font-medium transition-all duration-200
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
                     ${
-                      isDropdownOpen
-                        ? "text-primary dark:text-primary before:w-full before:bg-primary dark:before:bg-primary"
-                        : "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:before:w-full hover:before:bg-primary dark:hover:before:bg-primary"
+                      isActive
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                     }
                   `}
-                  aria-expanded={isDropdownOpen}
-                  aria-haspopup="true"
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {item.label}
-                  <motion.span
-                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="ml-2 inline-block"
-                  >
-                    <ChevronDown size={16} />
-                  </motion.span>
-                </button>
-              </div>
+                </Link>
+              </motion.div>
+            )}
 
-              {/* The Dropdown Panel */}
-              <NavDropdown
+            {/* Dropdown Menu */}
+            {hasDropdownItems && (
+              <DropdownMenu
                 items={item.dropdown}
-                isOpen={isDropdownOpen}
-                onClose={() => closeDropdown()}
-                basePath={item.path}
-                getIcon={getIcon}
+                isOpen={isDropdownOpen(item.id)}
+                onClose={closeDropdown}
+                className="top-full left-0 mt-1"
+                isMobile={false}
               />
-            </div>
-          );
-        } else {
-          return <NavLink key={item.path} item={item} />;
-        }
+            )}
+          </div>
+        );
       })}
     </nav>
   );

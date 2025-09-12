@@ -28,8 +28,11 @@ module.exports = {
           "var(--font-cinzel-decorative)",
           ...defaultTheme.fontFamily.serif,
         ],
-        // 'cinzel' for Cinzel (formal, classic text)
-        cinzel: ["var(--font-cinzel)", ...defaultTheme.fontFamily.serif],
+        montserrat: ["var(--font-montserrat)", ...defaultTheme.fontFamily.sans],
+        robotoSlab: [
+          "var(--font-roboto-slab)",
+          ...defaultTheme.fontFamily.serif,
+        ],
       },
     },
   },

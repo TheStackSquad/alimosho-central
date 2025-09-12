@@ -1,148 +1,144 @@
 // src/components/common/Header.jsx
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useDropdownManager } from "@/utils/dropdown";
-// Import the new sub-components
+
+// Import custom hooks
+import { useDropdown } from "@/utils/hooks/useDropdown";
+import { useClickOutsideAndEscape } from "@/utils/hooks/useClickOutside";
+import { useTheme } from "@/utils/hooks/useTheme";
+
+// Import components
 import DesktopNav from "./nav/desktopNav";
 import MobileMenu from "./nav/mobileMenu";
 import ThemeToggle from "./nav/themeToggle";
-import { navItems } from "@/components/common/navigation";
 
 export default function Header() {
-  const [theme, setTheme] = useState("light");
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef(null);
 
-  // Use centralized dropdown manager
-  const {
-    openDropdown,
-    toggleDropdown,
-    closeDropdown,
-    isOpen,
-    dropdownRef
-  } = useDropdownManager();
+  // Custom hooks
+  const { theme, toggleTheme, isLoading } = useTheme();
+  const { activeDropdown, toggleDropdown, closeDropdown, isDropdownOpen } =
+    useDropdown();
 
-  const menuRef = useRef(null);
-  const menuButtonRef = useRef(null);
+  // Close dropdowns when clicking outside
+  useClickOutsideAndEscape([headerRef], closeDropdown, true);
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme") || "light";
-    setTheme(storedTheme);
-    document.documentElement.classList.toggle("dark", storedTheme === "dark");
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        menuOpen &&
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        menuButtonRef.current &&
-        !menuButtonRef.current.contains(event.target)
-      ) {
-        setMenuOpen(false);
-        // Close all dropdowns when menu closes
-        closeDropdown();
-      }
-    };
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuOpen, closeDropdown]);
-
-  // Close dropdowns when menu closes
-  useEffect(() => {
+  const toggleMobileMenu = () => {
+    setMenuOpen(!menuOpen);
+    // Close any open dropdowns when toggling mobile menu
     if (!menuOpen) {
       closeDropdown();
     }
-  }, [menuOpen, closeDropdown]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
-  const handleMenuToggle = () => {
-    const newMenuOpen = !menuOpen;
-    setMenuOpen(newMenuOpen);
-
-    // Close all dropdowns when closing menu
-    if (!newMenuOpen) {
-      closeDropdown();
-    }
+  const closeMobileMenu = () => {
+    setMenuOpen(false);
+    closeDropdown();
   };
 
-  return (
-    <header className="w-full fixed top-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="group">
-          <motion.div
-            className="text-xl font-display font-bold text-gray-900 dark:text-white transition-all duration-300 group-hover:text-primary group-hover:scale-105"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Alimosho Central
-          </motion.div>
-        </Link>
-
-        {/* Desktop: Nav + Theme + Language grouped together */}
-        <div className="hidden lg:flex items-center gap-6">
-          <DesktopNav
-            navItems={navItems}
-            isOpen={isOpen}
-            toggleDropdown={toggleDropdown}
-            closeDropdown={closeDropdown}
-            dropdownRef={dropdownRef}
-          />
-
-          {/* Theme and Language switcher grouped closely */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+  // Prevent theme flash during SSR
+  if (isLoading) {
+    return (
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <div className="h-8 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
+              <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse md:hidden" />
+            </div>
           </div>
         </div>
+      </header>
+    );
+  }
 
-        {/* Mobile Icons: Language + Theme + Menu */}
-        <div className="flex items-center space-x-2 lg:hidden">
-          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-          <motion.button
-            ref={menuButtonRef}
-            onClick={handleMenuToggle}
-            aria-label="Toggle Menu"
-            whileTap={{ scale: 0.9 }}
-            className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
-          >
+  return (
+    <>
+      <header
+        ref={headerRef}
+        className="sticky top-0 z-30 bg-white/95 dark:bg-gray-900/95 
+                   backdrop-blur-sm border-b border-gray-200 dark:border-gray-700
+                   transition-colors duration-300"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo/Brand */}
             <motion.div
-              animate={{ rotate: menuOpen ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
+              className="flex items-center"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              <Link
+                href="/"
+                className="flex items-center space-x-2 focus:outline-none focus:ring-2 
+                          focus:ring-blue-500 focus:ring-offset-2 rounded-lg p-1"
+                onClick={closeMobileMenu}
+              >
+                <div className="flex items-center">
+                  <span className="text-xl font-bold text-gray-900 dark:text-white">
+                    Alimosho Central
+                  </span>
+                </div>
+              </Link>
             </motion.div>
-          </motion.button>
-        </div>
-      </div>
 
-      {/* Mobile Menu Panel */}
-      <div ref={menuRef}>
-        <MobileMenu
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-          navItems={navItems}
-          isOpen={isOpen}
-          toggleDropdown={toggleDropdown}
-          closeDropdown={closeDropdown}
-        />
-      </div>
-    </header>
+            {/* Desktop Navigation */}
+            <DesktopNav
+              activeDropdown={activeDropdown}
+              toggleDropdown={toggleDropdown}
+              closeDropdown={closeDropdown}
+              isDropdownOpen={isDropdownOpen}
+            />
+
+            {/* Right Side Controls */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
+              <ThemeToggle
+                theme={theme}
+                toggleTheme={toggleTheme}
+                className="transition-opacity duration-200"
+              />
+
+              {/* Mobile Menu Button */}
+              <motion.button
+                onClick={toggleMobileMenu}
+                whileTap={{ scale: 0.9 }}
+                className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 
+                          hover:bg-gray-100 dark:hover:bg-gray-800
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                          transition-colors duration-200"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+              >
+                <motion.div
+                  animate={{ rotate: menuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {menuOpen ? <X size={24} /> : <Menu size={24} />}
+                </motion.div>
+              </motion.button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={menuOpen}
+        onClose={closeMobileMenu}
+        activeDropdown={activeDropdown}
+        toggleDropdown={toggleDropdown}
+        isDropdownOpen={isDropdownOpen}
+      />
+    </>
   );
 }
