@@ -1,174 +1,206 @@
 // src/components/common/nav/mobileMenu.jsx
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { getIcon } from "@/utils/icons";
-import { mobileMenuVariants, itemVariants } from "@/animation/navbarAnimate";
-
-// Sub-component for a single mobile nav link
-const NavLink = ({ item, handleMobileLinkClick }) => {
-  const pathname = usePathname();
-  const isActive = item.path === pathname;
-
-  // In DesktopNav.jsx and MobileMenu.jsx, update the navigation handlers:
-
-  const handleNavigation = (path, closeDropdown) => {
-    if (path.includes("#")) {
-      // For hash links, we need to handle smooth scrolling
-      const [basePath, hash] = path.split("#");
-      if (window.location.pathname === basePath) {
-        // We're already on the page, scroll to section
-        scrollToSection(hash);
-      } else {
-        // Navigate to page first, then scroll to section
-        window.location.href = path;
-      }
-    } else {
-      // Regular navigation
-      window.location.href = path;
-    }
-    closeDropdown();
-  };
-
-  return (
-    <motion.div variants={itemVariants} className="w-full">
-      <Link
-        href={item.path}
-        onClick={handleMobileLinkClick}
-        className={`block w-full px-4 py-3 rounded-lg text-lg font-medium transition-colors duration-200
-          ${
-            isActive
-              ? "bg-gray-100 dark:bg-gray-800 text-primary dark:text-primary"
-              : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-white"
-          }`}
-      >
-        {item.label}
-      </Link>
-    </motion.div>
-  );
-};
-
-// Sub-component for a single mobile dropdown item
-const DropdownItem = ({ item, handleMobileLinkClick }) => {
-  return (
-    <motion.li className="w-full" variants={itemVariants}>
-      <Link href={item.path} onClick={handleMobileLinkClick}>
-        <div
-          className="flex items-center px-4 py-3 gap-3 transition-all duration-200 rounded-lg
-          hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-        >
-          <span className="text-gray-500 dark:text-gray-400">
-            {getIcon(item.icon, 22)}
-          </span>
-          <span className="font-medium text-gray-800 dark:text-white">
-            {item.label}
-          </span>
-        </div>
-      </Link>
-    </motion.li>
-  );
-};
+import { X, ChevronDown } from "lucide-react";
+import { navItems } from "@/data/navigationData";
+import {
+  mobileMenuVariants,
+  backdropVariants,
+  chevronVariants,
+  staggerContainer,
+  staggerItem,
+} from "@/animation/navbarAnimate";
+import DropdownMenu from "./dropdownMenu";
 
 export default function MobileMenu({
-  menuOpen,
-  setMenuOpen,
-  navItems,
   isOpen,
+  onClose,
+  activeDropdown,
   toggleDropdown,
-  closeDropdown,
+  isDropdownOpen,
 }) {
-  const handleMobileLinkClick = () => {
-    setMenuOpen(false);
-    closeDropdown();
+  const pathname = usePathname();
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
+
+  const isActiveLink = (path) => {
+    return pathname === path;
+  };
+
+  const isActiveParent = (item) => {
+    if (isActiveLink(item.path)) return true;
+
+    if (item.dropdown) {
+      return item.dropdown.some(
+        (dropdownItem) => dropdownItem.path && isActiveLink(dropdownItem.path)
+      );
+    }
+
+    return false;
+  };
+
+  const handleLinkClick = () => {
+    onClose();
+  };
+
+  const handleDropdownToggle = (itemId, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleDropdown(itemId);
   };
 
   return (
     <AnimatePresence>
-      {menuOpen && (
-        <motion.nav
-          className="lg:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-700 px-4 py-4 space-y-2 font-cinzel text-sm text-gray-700 dark:text-gray-300"
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={mobileMenuVariants}
-          aria-label="Main navigation"
-        >
-          {navItems.map((item) => {
-            const dropdownName = item.label.toLowerCase();
-            const isDropdownOpen = isOpen(dropdownName);
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            variants={backdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            onClick={onClose}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            aria-hidden="true"
+          />
 
-            return (
-              <div key={item.label} className="w-full">
-                {item.dropdown ? (
-                  // Dropdown Parent Item
-                  <div className="flex flex-col">
-                    <div className="flex items-center w-full">
+          {/* Mobile Menu */}
+          <motion.div
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] 
+                       bg-white dark:bg-gray-900 
+                       shadow-xl z-50 md:hidden
+                       overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Menu
+              </h2>
+              <button
+                onClick={onClose}
+                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 
+                          hover:bg-gray-100 dark:hover:bg-gray-800
+                          focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label="Close menu"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Navigation Items */}
+            <motion.nav
+              className="p-4 space-y-2"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+            >
+              {navItems.map((item) => {
+                const isActive = isActiveParent(item);
+                const hasDropdownItems =
+                  item.hasDropdown && item.dropdown?.length > 0;
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    variants={staggerItem}
+                    className="space-y-1"
+                  >
+                    {hasDropdownItems ? (
+                      <div>
+                        <button
+                          onClick={(e) => handleDropdownToggle(item.id, e)}
+                          className={`
+                            w-full flex items-center justify-between p-3 rounded-lg
+                            font-medium transition-all duration-200
+                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                            ${
+                              isActive
+                                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                            }
+                          `}
+                          aria-expanded={isDropdownOpen(item.id)}
+                          aria-controls={`${item.id}-dropdown`}
+                        >
+                          <span>{item.label}</span>
+                          <motion.div
+                            variants={chevronVariants}
+                            animate={
+                              isDropdownOpen(item.id) ? "open" : "closed"
+                            }
+                          >
+                            <ChevronDown size={16} />
+                          </motion.div>
+                        </button>
+
+                        {/* Mobile Dropdown */}
+                        <DropdownMenu
+                          items={item.dropdown}
+                          isOpen={isDropdownOpen(item.id)}
+                          onClose={handleLinkClick}
+                          className="ml-4"
+                          isMobile={true}
+                        />
+                      </div>
+                    ) : (
                       <Link
                         href={item.path}
-                        onClick={handleMobileLinkClick}
-                        className="flex-1 text-left block relative px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300
-                        hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-white"
+                        onClick={handleLinkClick}
+                        className={`
+                          block p-3 rounded-lg
+                          font-medium transition-all duration-200
+                          focus:outline-none focus:ring-2 focus:ring-blue-500
+                          ${
+                            isActive
+                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                          }
+                        `}
+                        aria-current={isActive ? "page" : undefined}
                       >
                         {item.label}
                       </Link>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          toggleDropdown(dropdownName);
-                        }}
-                        className="p-3 mr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-                        aria-label={`Toggle ${item.label} dropdown`}
-                        aria-expanded={isDropdownOpen}
-                      >
-                        <motion.div
-                          animate={{
-                            rotate: isDropdownOpen ? 180 : 0,
-                          }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ChevronDown size={16} />
-                        </motion.div>
-                      </button>
-                    </div>
-
-                    {/* Dropdown content */}
-                    <AnimatePresence>
-                      {isDropdownOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-4 pb-2">
-                            <ul className="flex flex-col space-y-1">
-                              {item.dropdown.map((subItem) => (
-                                <DropdownItem
-                                  key={subItem.id}
-                                  item={subItem}
-                                  handleMobileLinkClick={handleMobileLinkClick}
-                                />
-                              ))}
-                            </ul>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  // Regular Nav Link
-                  <NavLink
-                    item={item}
-                    handleMobileLinkClick={handleMobileLinkClick}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </motion.nav>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </motion.nav>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
