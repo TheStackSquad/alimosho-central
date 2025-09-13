@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import AboutHero from "@/components/about/aboutHero/aboutHero";
 import AboutBio from "@/components/about/aboutBio/bioContent";
 import AboutLeadership from "@/components/about/aboutLeadership/leadershipGrid";

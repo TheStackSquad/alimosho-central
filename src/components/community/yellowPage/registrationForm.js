@@ -1,7 +1,7 @@
 // src/components/community/yellowPage/RegistrationForm.js
 import { useState } from "react";
 import { X, Building2, AlertCircle, CheckCircle } from "lucide-react";
-import { categories, oshodiAreas } from "../../../data/yellowData";
+import { categories, oshodiAreas } from "@/data/yellowData";
 
 const RegistrationForm = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({

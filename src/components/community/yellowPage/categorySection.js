@@ -1,4 +1,5 @@
 // src/components/community/yellowPage/categorySection.js
+
 "use client";
 
 import BusinessCardCollapse from "./businessCard";
@@ -21,21 +22,21 @@ export default function CategorySection({
       >
         <h2
           id={`${category}-heading`}
-          className="text-2xl font-bold dark:text-white flex items-center gap-3"
+          className="text-2xl font-bold text-amber-950 dark:text-amber-200 flex items-center gap-3"
         >
-          <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
+          <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-3 py-1 rounded-full text-sm font-medium">
             {category}
           </span>
           <span>{category}</span>
-          <span className="text-gray-500 dark:text-gray-400 text-sm font-normal">
+          <span className="text-amber-800 dark:text-amber-400 text-sm font-normal">
             ({businesses.length}{" "}
             {businesses.length === 1 ? "business" : "businesses"})
           </span>
         </h2>
         {isExpanded ? (
-          <ChevronUp className="w-5 h-5 text-gray-500" />
+          <ChevronUp className="w-5 h-5 text-amber-500 dark:text-amber-400" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-gray-500" />
+          <ChevronDown className="w-5 h-5 text-amber-500 dark:text-amber-400" />
         )}
       </div>
 

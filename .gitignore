@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Winston log files
+dev.log
+
+# Development logging (exclude from repository)
+/logs/
+logs/
+*.log
+
+# Winston logger utilities (exclude from repo)
+/utils/winston/
+/src/app/api/winston/
+
+# Performance tracking utilities (if you want to exclude)
+/utils/performance/
