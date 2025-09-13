@@ -28,7 +28,7 @@ const ContactHeader = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Contact
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 dark:from-yellow-300 dark:to-orange-400">
-              Oshodi Local Government
+              Alimosho Local Government
             </span>
           </h1>
         </div>
@@ -44,7 +44,7 @@ const ContactHeader = () => {
         >
           <p className="text-xl md:text-2xl text-blue-100 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             Connect with our dedicated officials and representatives serving the
-            Oshodi community
+            Alimosho community
           </p>
         </div>
 
@@ -113,7 +113,7 @@ const ContactHeader = () => {
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              Emergency: 700-OSHODI
+              Emergency: 700-ALIMIOSHO
             </a>
             <a
               href="mailto:info@oshodilg.gov.ng"

@@ -69,6 +69,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+ 
   return (
     <html
       lang="en"
@@ -96,7 +97,6 @@ export default function RootLayout({ children }) {
                   <main id="main-content" className="min-h-screen">
                     {children}
                   </main>
-
                   {/* Toast notifications - client only */}
                   <ClientOnlyWrapper>
                     <ToastProvider />

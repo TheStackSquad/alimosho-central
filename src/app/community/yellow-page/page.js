@@ -1,4 +1,3 @@
-// src/app/community/yellow-page/page.js
 "use client";
 
 import { useState, useMemo } from "react";
@@ -105,7 +104,7 @@ const YellowPageDirectory = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-amber-50 dark:bg-amber-950">
       {/* Header Section */}
       <HeaderSection onRegister={() => setShowRegistrationForm(true)} />
 
