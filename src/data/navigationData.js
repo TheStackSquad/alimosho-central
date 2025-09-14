@@ -79,6 +79,12 @@ export const navItems = [
         path: "/community/yellow-page",
       },
       {
+        id: "poll",
+        label: "Poll",
+        icon: "🗳️",
+        path: "/community/poll",
+      },
+      {
         id: "logout",
         label: "Logout",
         icon: "🚪",

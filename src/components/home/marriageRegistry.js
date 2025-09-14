@@ -2,10 +2,14 @@
 
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const MarriageRegistry = () => {
+  const router = useRouter();
+
   const handleScheduleClick = () => {
-    // This will redirect to marriage registry page when built
-    console.log("Redirect to marriage registry scheduler");
+    // Redirect to marriage registry page
+    router.push("/community/online-services/marriage-registry");
   };
 
   return (
