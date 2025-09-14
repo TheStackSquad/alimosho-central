@@ -11,22 +11,22 @@ export default function ThemeToggle({ theme, toggleTheme, className = "" }) {
     <motion.button
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      aria-pressed={theme === "dark"}
+      aria-checked={theme === "dark"}
       role="switch"
       whileTap={{ scale: 0.9 }}
       whileHover={{ scale: 1.05 }}
       className={`
-        relative p-3 rounded-xl
-        bg-gray-100 dark:bg-gray-800
-        hover:bg-gray-200 dark:hover:bg-gray-700
-        border border-gray-200 dark:border-gray-600
-        text-gray-600 dark:text-gray-300
-        hover:text-gray-800 dark:hover:text-gray-100
-        transition-all duration-300 ease-out
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-        shadow-sm hover:shadow-md
-        ${className}
-      `}
+  relative p-3 rounded-xl
+  bg-gray-100 dark:bg-gray-800
+  hover:bg-gray-200 dark:hover:bg-gray-700
+  border border-gray-200 dark:border-gray-600
+  text-gray-600 dark:text-gray-300
+  hover:text-gray-800 dark:hover:text-gray-100
+  transition-all duration-300 ease-out
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  shadow-sm hover:shadow-md
+  ${className}
+`}
     >
       {/* Background gradient effect */}
       <motion.div
